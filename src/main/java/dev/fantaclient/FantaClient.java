@@ -6,6 +6,8 @@ import net.minecraft.resources.Identifier;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import org.lwjgl.glfw.GLFW;
+
 import dev.fantaclient.gui.ClickGuiScreen;
 import dev.fantaclient.module.ModuleManager;
 
@@ -25,7 +27,7 @@ public class FantaClient implements ClientModInitializer {
                 new KeyMapping(
                         "key.fantaclient.open_gui",
                         InputConstants.Type.KEYSYM,
-                        InputConstants.KEY_RIGHT_SHIFT,
+                        GLFW.GLFW_KEY_RIGHT_SHIFT,
                         category
                 )
         );
