@@ -24,7 +24,7 @@ public class ElytraTarget extends Module {
             return;
         }
 
-        List<Player> players = client.level.players();
+    var players = client.level.players();
 
         target = players.stream()
                 .filter(player -> player != client.player)
