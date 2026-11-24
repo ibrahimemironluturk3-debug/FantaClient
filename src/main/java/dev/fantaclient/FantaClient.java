@@ -1,3 +1,4 @@
+
 package dev.fantaclient;
 
 import com.mojang.blaze3d.platform.InputConstants;
@@ -10,6 +11,11 @@ import org.lwjgl.glfw.GLFW;
 
 import dev.fantaclient.gui.ClickGuiScreen;
 import dev.fantaclient.module.ModuleManager;
+import dev.fantaclient.module.Sprint;
+import dev.fantaclient.module.Fullbright;
+import dev.fantaclient.module.HUD;
+import dev.fantaclient.module.CrystalAura;
+import dev.fantaclient.module.ElytraTarget;
 
 public class FantaClient implements ClientModInitializer {
 
@@ -19,6 +25,30 @@ public class FantaClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+
+        MODULE_MANAGER.register(new Sprint());
+        MODULE_MANAGER.register(new Fullbright());
+        MODULE_MANAGER.register(new HUD());
+        MODULE_MANAGER.register(new CrystalAura());
+        MODULE_MANAGER.register(new ElytraTarget());
+
+        Sprint.registerTick();
+        Fullbright.registerTick();
+        HUD.registerRender();
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            ElytraTarget target = (ElytraTarget)
+                    MODULE_MANAGER.getModule("ElytraTarget");
+
+            if (target != null) {
+                target.update();
+            }
+
+            while (openGuiKey.consumeClick()) {
+                client.setScreen(new ClickGuiScreen(MODULE_MANAGER));
+            }
+        });
+
         KeyMapping.Category category = KeyMapping.Category.register(
                 Identifier.fromNamespaceAndPath("fantaclient", "main")
         );
@@ -31,12 +61,6 @@ public class FantaClient implements ClientModInitializer {
                         category
                 )
         );
-
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (openGuiKey.consumeClick()) {
-                client.setScreen(new ClickGuiScreen(MODULE_MANAGER));
-            }
-        });
 
         System.out.println("[FantaClient] Baslatildi!");
     }
