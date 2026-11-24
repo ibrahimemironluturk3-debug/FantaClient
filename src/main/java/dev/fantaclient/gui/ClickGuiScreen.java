@@ -1,3 +1,4 @@
+
 package dev.fantaclient.gui;
 
 import dev.fantaclient.module.Module;
@@ -18,7 +19,8 @@ public class ClickGuiScreen extends Screen {
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        this.renderBackground(graphics, mouseX, mouseY, delta);
+        // Bulanıklık yerine yarı saydam arka plan
+        graphics.fill(0, 0, this.width, this.height, 0xCC101018);
 
         graphics.drawCenteredString(
                 this.font,
